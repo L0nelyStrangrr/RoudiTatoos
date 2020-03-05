@@ -1,0 +1,116 @@
+@import "_variables.less";
+
+.header {
+    
+    &__scene {
+        z-index: -1;
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        min-height: 100vh;
+    }
+
+    &__layer {
+        position: absolute;
+        left: -6%;
+        // top: 0;
+        width: 110%;
+        height: 100%;
+        
+        &:first-child {
+            background-image: url(../img/main-bg.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        &:last-child {
+            background-image: url(../img/main-roudi-2.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            // margin-top: 100px;
+            position: relative;
+            bottom: 0;
+        }
+    }
+
+    &__container {
+        width: 100%;
+        max-width: 1430px;
+        margin: 0 auto;
+        padding: 0 15px;
+        position: relative;
+    }
+
+    &__logo {
+        font-size: @f-size-header;
+        font-weight: @f-weight-h;
+        line-height: 17px;
+        padding: 72px 0 0 100px;
+        margin-bottom: 88px;
+    }
+
+    &__links {
+        display: block;
+        // margin-right: 100px;
+        position: absolute;
+       
+        right: 0;
+        transform: rotate(-90deg);
+    }
+
+    &__link {
+        display: inline-block;
+        position: absolute;
+        transform: rotate(-90deg);
+        right: 60px;
+
+        &:nth-child(2) {
+            top: 120px;
+        }
+
+        &:nth-child(3) {
+            top: 288px;
+            right: 50px;
+         }
+    }
+
+    &__navlink {
+        font-size: @f-size-header;
+        font-weight: 800;
+        position: relative;
+        line-height: 17px;
+        margin-top: 20px;
+        color: rgba(255,255,255,0.3);
+        padding-left: 101px;
+
+        &::before {
+            left: -1px;
+            top: calc(50% - 1px);
+            position: absolute;
+            content: '';
+            width: 100px;
+            height: 1px;
+            background-color: @secondary-color;
+            opacity: 1;
+        }
+
+        a {
+            color: #FFFFFF;
+            font-size: @f-size-header;
+            font-weight: @f-weight-basic;
+            line-height: 17px;
+            margin-left: 15px;
+        }
+
+        &-active {
+            color: rgba(255,255,255,0.1);
+            &::before {
+                content: none;
+            }
+        }
+    }
+}
