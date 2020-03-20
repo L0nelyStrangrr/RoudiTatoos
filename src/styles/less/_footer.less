@@ -1,0 +1,61 @@
+.footer {
+
+    &__container {
+        max-width: 1620px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 60px;
+    }
+
+    &__license {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0 60px 0;      
+        
+    }
+
+    &__item {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px;
+        align-self: flex-end;
+
+        a {
+            &:hover {
+                transition: 0.4s;
+                color: @secondary-color;
+            }
+        }
+
+        @media screen and (max-width: 1023px) {
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            padding-top: 14px;
+        }
+    }  
+
+    &__stick {
+        @media screen and (max-width: 1023px) {
+            display: none;
+        }
+    }
+        
+
+        &__logo {
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 17px;
+            text-transform: uppercase;
+
+            @media screen and (max-width: 1023px) {
+                display: none;
+            }
+        }
+    }
+
+        
+    
+    

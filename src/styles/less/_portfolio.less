@@ -1,0 +1,70 @@
+@import "_variables.less";
+
+.portfolio {
+    padding: 41px 0 153px 0;
+    position: relative;
+    
+    .swiper-container {
+        padding-top: 46px;
+    }
+
+    .swiper-slide {
+        transform-origin: top right;
+        transform: scale(0.8);
+        opacity: 0.4;
+
+        span {
+            font-size: 18px;
+            line-height: 22px;
+            text-transform: uppercase;
+            @media screen and (max-width: 1023px) {
+                font-size: @f-size-basick-m;
+                line-height: @f-line-height-m;
+            }
+        }
+    }
+
+    .swiper-slide-prev {
+                transform-origin: top left;
+                transform: scale(0.8);
+                opacity: 0.4;
+            }  
+    
+    .swiper-slide-active {
+        transform: scale(1);
+        opacity: 1;
+        transition: 0.35s;
+    }
+    
+    .swiper-button-next, .swiper-button-prev {
+        top: calc(100% - 32px);
+        width: 60px;
+    }
+        
+            .swiper-button-next{
+                right: 0;
+            }
+        
+            .swiper-button-prev {
+                transform: rotate(180deg);
+                right: 80px;
+                left: unset;
+            }
+        }
+
+        @media screen and (max-width: 1023px) {
+
+            .portfolio .swiper-button-next, .swiper-button-prev {
+                top: calc(100% - 32px);
+                width: 88px;
+            }
+            .portfolio .swiper-button-next{
+                left: 50%;
+            }
+
+            .portfolio .swiper-button-prev {
+                display: none;
+            }
+        }
+    
+    

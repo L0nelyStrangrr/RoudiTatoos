@@ -16,23 +16,23 @@ var terser = require('gulp-terser');
 // files paths
 var paths = {
     src: {
-        srcHtml: './src/pages/*.html',
-        srcHtmlNav: './src/*.html',
+        srcHtml: './src/*.html',
         srcStyles: './src/styles/less/index.less',
         srcOtherStyles: './src/styles/less/*.less',
         srcSmartGrid: './src/styles/less/',
         srcCssPlugins: './src/styles/css/*.css',
         srcJs: './src/js/*.js',
         srcJsPlugins: './src/js/libs/*.js',
-        srsImages: './src/img/**/*.{png,jpg,jpeg,svg,gif}'
+        srcImages: './src/img/**/*.{png,jpg,jpeg,svg,gif}',
+        srcFonts: './src/fonts/*'
     },
     build: {
         build: './build/*',
         buildStyles: './build/css',
         buildJs: './build/js',
         buildImages: './build/img',
-        buildHtml: './build/pages',
-        buildHtmlNav: './build/'
+        buildHtml: './build/',
+        buildFonts: './build/fonts'
     }
 }
 
@@ -40,13 +40,6 @@ function html() {
     return gulp.src(paths.src.srcHtml)
     .pipe(newer(paths.build.buildHtml))
     .pipe(gulp.dest(paths.build.buildHtml))
-    .pipe(browserSync.stream());
-}
-
-function htmlNav() {
-    return gulp.src(paths.src.srcHtmlNav)
-    .pipe(newer(paths.build.buildHtmlNav))
-    .pipe(gulp.dest(paths.build.buildHtmlNav))
     .pipe(browserSync.stream());
 }
 
@@ -59,18 +52,13 @@ function styles() {
     //converting less syntax into css
     .pipe((less()))
     //merging files into one
-    // .pipe(concat('styles.css'))
+    .pipe(concat('style.css'))
     .pipe(gcmq())
     //add autoprefixes
     .pipe(autoprefixer({
         overrideBrowserslist: ['last 2 versions'],
         cascade: false
     }))
-    //rename
-    .pipe(rename({
-        basename: "main",
-    }))
-    .pipe(gulp.dest(paths.build.buildStyles))
     //optimization
     .pipe(cleanCSS({
         level: {
@@ -81,7 +69,6 @@ function styles() {
           }
     }))
     .pipe(rename({
-        basename: "main",
         suffix: ".min"
     }))
     //output folder for css styles
@@ -97,9 +84,8 @@ function scripts() {
     //template for js searching
     //All files for templates
     return gulp.src(paths.src.srcJs)
-    // .pipe(newer(paths.build.buildJs))
+    .pipe(newer(paths.build.buildJs))
     .pipe(concat('app.js'))
-    .pipe(gulp.dest(paths.build.buildJs))
     .pipe(terser())
     .pipe(rename({
         suffix: '.min'
@@ -115,16 +101,25 @@ function scripts() {
 
 //Task for images 
 function images() {
-    return gulp.src(paths.src.srsImages)
+    return gulp.src(paths.src.srcImages)
     .pipe(newer(paths.build.buildImages))
     .pipe(imageMin())
     .pipe(gulp.dest(paths.build.buildImages))
     .pipe(browserSync.stream());
 }
 
+function fonts() {
+    return gulp.src(paths.src.srcFonts)
+    .pipe(newer(paths.build.buildFonts))
+    .pipe(gulp.dest(paths.build.buildFonts))
+    .pipe(browserSync.stream());
+}
+
 function clean() {
     return del([paths.build.build])
 }
+
+
 
 // function grid(done) {
 //     let settings = {
@@ -170,25 +165,26 @@ function watch() {
     gulp.watch([paths.src.srcStyles, paths.src.srcOtherStyles], styles)
     // gulp.watch(paths.src.srcOtherStyles, styles)
     //watch for js files changes
-    gulp.watch(paths.src.srcJs, scripts)
+    gulp.watch([paths.src.srcJs, paths.src.srcJsPlugins], scripts)
     gulp.watch(paths.src.srcHtml, html)
-    gulp.watch(paths.src.srcHtmlNav, htmlNav)
-    gulp.watch(paths.src.srsImages, images)
+    gulp.watch(paths.src.srcImages, images)
+    gulp.watch(paths.src.srcFonts, fonts)
     gulp.watch("./**/*.html").on('change', browserSync.reload)
 }
 
 gulp.task('html', html)
-gulp.task('htmlNav', htmlNav)
 //Task for calling styles function
 gulp.task('styles', styles);
 //Task for calling scripts function
 gulp.task('scripts', scripts);
-//Task fot images optimization 
+//Task for images optimization 
 gulp.task('images', images);
+//Task for fonts 
+gulp.task('fonts', fonts);
 //Task for cleaning build folder
 gulp.task('del', clean);
 //Task for cnhange tracking
 gulp.task('watch', watch);
 //work tasks
-gulp.task('build', gulp.series(clean, gulp.parallel(html, htmlNav, styles, scripts, images)));
+gulp.task('build', gulp.series(clean, gulp.parallel(html, styles, scripts, images, fonts)));
 gulp.task('dev', gulp.series('build', 'watch'));
